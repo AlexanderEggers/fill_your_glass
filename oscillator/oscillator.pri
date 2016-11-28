@@ -1,4 +1,4 @@
-INCLUDEPATH += oscillator
+INCLUDEPATH += Oscillator
 HEADERS += oscillator/oscillatorsource.h\
     oscillator/oscillator.h
 
