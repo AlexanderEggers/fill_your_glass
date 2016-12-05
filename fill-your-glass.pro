@@ -18,3 +18,6 @@ INCLUDEPATH += audioengine\
 include(audioengine/audioplayer.pri)
 include(oscillator/oscillator.pri)
 include(main/main.pri)
+include(soundSystem/soundSystem.pri)
+
+DISTFILES +=

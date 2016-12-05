@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , audioPlayer(this)
-
+    , sound(parent)
 {
     ui->setupUi(this);
     initializeAudio();
@@ -23,13 +23,14 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::initializeAudio(){
-    on_frequencySlider_valueChanged(ui->frequencySlider->value());
-    on_gainSlider_valueChanged(ui->gainSlider->value());
+    //on_frequencySlider_valueChanged(ui->frequencySlider->value());
+    //on_gainSlider_valueChanged(ui->gainSlider->value());
 
-    audioPlayer.setAudioSource(&oscillatorSource);
-    audioPlayer.start();
+    //audioPlayer.setAudioSource(&oscillatorSource);
+    //audioPlayer.start();
+
+    sound.init();
 }
-
 
 
 void MainWindow::on_frequencySlider_valueChanged(int value)

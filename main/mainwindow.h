@@ -6,6 +6,7 @@
 #include <QAudioOutput>
 #include "audioplayer.h"
 #include "oscillatorsource.h"
+#include "soundsystem.h"
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +34,7 @@ private:
     Ui::MainWindow *ui;
     OscillatorSource oscillatorSource;
     AudioPlayer audioPlayer;
+    SoundSystem sound;
 };
 
 #endif // MAINWINDOW_H
