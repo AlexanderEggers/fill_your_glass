@@ -5,6 +5,7 @@
 #include <QAudioDecoder>
 #include <QAudioFormat>
 #include <math.h>
+#include "facedetection/facedetection.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -28,6 +29,8 @@ void MainWindow::initializeAudio(){
 
     //audioPlayer.setAudioSource(&oscillatorSource);
     //audioPlayer.start();
+    FaceDetection faceDetection;
+    faceDetection.detectFaces();
 
     sound.init();
 }

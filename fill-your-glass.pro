@@ -8,16 +8,28 @@ QT       += core gui widgets multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+CONFIG += c++11
+
 TARGET = fill-your-glass
 TEMPLATE = app
 
 INCLUDEPATH += audioengine\
-			oscillator\
-			main
+                oscillator\
+                main\
+                "$$PWD\dlib_build\include"
+
+LIBS += -L"$$PWD\dlib_build\lib" -ldlib
+
+QMAKE_CXXFLAGS_RELEASE += /arch:AVX
+
+QMAKE_CXXFLAGS += -DDLIB_JPEG_SUPPORT
 
 include(audioengine/audioplayer.pri)
 include(oscillator/oscillator.pri)
 include(main/main.pri)
 include(soundSystem/soundSystem.pri)
+include(opencv/opencv.pri)
+include(opencv/videoengine.pri)
+include(facedetection/facedetection.pri)
 
 DISTFILES +=
