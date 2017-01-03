@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.7.0
+** Created by: Qt User Interface Compiler version 5.7.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -13,12 +13,10 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QSlider>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -29,11 +27,9 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QComboBox *waveformCombobox;
-    QSlider *frequencySlider;
-    QLabel *frequencyLabel;
-    QSlider *gainSlider;
-    QLabel *label;
+    QPushButton *faceBtn;
+    QPushButton *audioBtn;
+    QPushButton *playBtn;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -42,30 +38,18 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(400, 300);
+        MainWindow->resize(400, 288);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        waveformCombobox = new QComboBox(centralWidget);
-        waveformCombobox->setObjectName(QStringLiteral("waveformCombobox"));
-        waveformCombobox->setGeometry(QRect(30, 30, 69, 22));
-        frequencySlider = new QSlider(centralWidget);
-        frequencySlider->setObjectName(QStringLiteral("frequencySlider"));
-        frequencySlider->setGeometry(QRect(110, 30, 211, 22));
-        frequencySlider->setValue(50);
-        frequencySlider->setOrientation(Qt::Horizontal);
-        frequencyLabel = new QLabel(centralWidget);
-        frequencyLabel->setObjectName(QStringLiteral("frequencyLabel"));
-        frequencyLabel->setGeometry(QRect(340, 30, 47, 13));
-        gainSlider = new QSlider(centralWidget);
-        gainSlider->setObjectName(QStringLiteral("gainSlider"));
-        gainSlider->setGeometry(QRect(110, 90, 211, 22));
-        gainSlider->setMinimum(-100);
-        gainSlider->setMaximum(0);
-        gainSlider->setValue(0);
-        gainSlider->setOrientation(Qt::Horizontal);
-        label = new QLabel(centralWidget);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(30, 90, 46, 13));
+        faceBtn = new QPushButton(centralWidget);
+        faceBtn->setObjectName(QStringLiteral("faceBtn"));
+        faceBtn->setGeometry(QRect(120, 60, 131, 23));
+        audioBtn = new QPushButton(centralWidget);
+        audioBtn->setObjectName(QStringLiteral("audioBtn"));
+        audioBtn->setGeometry(QRect(150, 120, 75, 23));
+        playBtn = new QPushButton(centralWidget);
+        playBtn->setObjectName(QStringLiteral("playBtn"));
+        playBtn->setGeometry(QRect(150, 180, 75, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -85,17 +69,10 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        waveformCombobox->clear();
-        waveformCombobox->insertItems(0, QStringList()
-         << QApplication::translate("MainWindow", "Sinus", 0)
-         << QApplication::translate("MainWindow", "Dreieck", 0)
-         << QApplication::translate("MainWindow", "Rechteck", 0)
-         << QApplication::translate("MainWindow", "S\303\244gezahn", 0)
-         << QApplication::translate("MainWindow", "Rauschen", 0)
-        );
-        frequencyLabel->setText(QApplication::translate("MainWindow", "frequencyLabel", 0));
-        label->setText(QApplication::translate("MainWindow", "Gain:", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
+        faceBtn->setText(QApplication::translate("MainWindow", "faceDetection start", Q_NULLPTR));
+        audioBtn->setText(QApplication::translate("MainWindow", "Audio start", Q_NULLPTR));
+        playBtn->setText(QApplication::translate("MainWindow", "Start Game", Q_NULLPTR));
     } // retranslateUi
 
 };

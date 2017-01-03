@@ -7,6 +7,7 @@
 #include "audioplayer.h"
 #include "oscillatorsource.h"
 #include "soundsystem.h"
+#include "facedetection.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,19 +23,18 @@ public:
 
 private slots:
 
-    void on_frequencySlider_valueChanged(int value);
+    void on_faceBtn_clicked();
 
-    void on_waveformCombobox_activated(int index);
+    void on_audioBtn_clicked();
 
-    void on_gainSlider_valueChanged(int value);
-
+    void on_playBtn_clicked();
 
 private:
-    void initializeAudio();
+    void initialize();
     Ui::MainWindow *ui;
-    OscillatorSource oscillatorSource;
     AudioPlayer audioPlayer;
     SoundSystem sound;
+    FaceDetection faceDetection;
 };
 
 #endif // MAINWINDOW_H

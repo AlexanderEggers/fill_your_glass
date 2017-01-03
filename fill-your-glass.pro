@@ -16,9 +16,9 @@ TEMPLATE = app
 INCLUDEPATH += audioengine\
                 oscillator\
                 main\
-                "$$PWD\dlib_build\include"
+                "D:\dlib_build\include"
 
-LIBS += -L"$$PWD\dlib_build\lib" -ldlib
+LIBS += -L"D:\dlib_build\lib" -ldlib
 
 QMAKE_CXXFLAGS_RELEASE += /arch:AVX
 
@@ -28,8 +28,9 @@ include(audioengine/audioplayer.pri)
 include(oscillator/oscillator.pri)
 include(main/main.pri)
 include(soundSystem/soundSystem.pri)
-include(opencv/opencv.pri)
-include(opencv/videoengine.pri)
+include(../opencv/opencv.pri)
+include(../opencv/videoengine.pri)
 include(facedetection/facedetection.pri)
+include(game/game.pri)
 
 DISTFILES +=

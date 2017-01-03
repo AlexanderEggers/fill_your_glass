@@ -7,110 +7,50 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>288</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QComboBox" name="waveformCombobox">
+   <widget class="QPushButton" name="faceBtn">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>30</y>
-      <width>69</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>Sinus</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Dreieck</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Rechteck</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Sägezahn</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Rauschen</string>
-     </property>
-    </item>
-   </widget>
-   <widget class="QSlider" name="frequencySlider">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>30</y>
-      <width>211</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="value">
-     <number>50</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="frequencyLabel">
-    <property name="geometry">
-     <rect>
-      <x>340</x>
-      <y>30</y>
-      <width>47</width>
-      <height>13</height>
+      <x>120</x>
+      <y>60</y>
+      <width>131</width>
+      <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>frequencyLabel</string>
+     <string>faceDetection start</string>
     </property>
    </widget>
-   <widget class="QSlider" name="gainSlider">
+   <widget class="QPushButton" name="audioBtn">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>90</y>
-      <width>211</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="minimum">
-     <number>-100</number>
-    </property>
-    <property name="maximum">
-     <number>0</number>
-    </property>
-    <property name="value">
-     <number>0</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>90</y>
-      <width>46</width>
-      <height>13</height>
+      <x>150</x>
+      <y>120</y>
+      <width>75</width>
+      <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Gain:</string>
+     <string>Audio start</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="playBtn">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>180</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start Game</string>
     </property>
    </widget>
   </widget>

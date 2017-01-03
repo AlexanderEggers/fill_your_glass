@@ -5,6 +5,7 @@
 #include <QAudioDecoder>
 #include <QAudioFormat>
 #include <math.h>
+#include "game/game.h"
 #include "facedetection/facedetection.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,9 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , audioPlayer(this)
     , sound(parent)
+    , faceDetection()
 {
     ui->setupUi(this);
-    initializeAudio();
+    initialize();
 }
 
 MainWindow::~MainWindow()
@@ -23,36 +25,24 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::initializeAudio(){
-    //on_frequencySlider_valueChanged(ui->frequencySlider->value());
-    //on_gainSlider_valueChanged(ui->gainSlider->value());
+void MainWindow::initialize(){
 
-    //audioPlayer.setAudioSource(&oscillatorSource);
-    //audioPlayer.start();
-    FaceDetection faceDetection;
+
+}
+
+void MainWindow::on_faceBtn_clicked()
+{
     faceDetection.detectFaces();
+}
 
+void MainWindow::on_audioBtn_clicked()
+{
     sound.init();
 }
 
-
-void MainWindow::on_frequencySlider_valueChanged(int value)
+void MainWindow::on_playBtn_clicked()
 {
-    // 0 ... 100% --> 100Hz ... 10000Hz
-    float scaledValue = 2 * value / 100.f + 2;
-    float frequency = pow(10, scaledValue);
+    Game *g = new Game();
+    g->show();
 
-    ui->frequencyLabel->setText(QString::number((int)frequency));
-    oscillatorSource.setFrequency(frequency);
 }
-
-void MainWindow::on_waveformCombobox_activated(int index)
-{
-    oscillatorSource.setSelectedOscillator(index);
-}
-
-void MainWindow::on_gainSlider_valueChanged(int value)
-{
-    oscillatorSource.setGain(value);
-}
-

@@ -17,7 +17,7 @@ void SoundSystem::init(){
 }
 
 void SoundSystem::load(){
-    player->setMedia(QUrl::fromLocalFile("soundSystem/test_sound.mp3"));
+    player->setMedia(QUrl::fromLocalFile("soundSystem/test_sound.wav"));
 }
 
 void SoundSystem::start(){

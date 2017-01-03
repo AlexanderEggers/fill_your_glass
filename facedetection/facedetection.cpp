@@ -28,7 +28,7 @@ int FaceDetection::detectFaces(){
     try
     {
         //download from http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2, extract and copy the path into this string
-        string pathToSPDat = "C:/Users/Schmedes/Desktop/AVPRG/AVPRG/shape_predictor_68_face_landmarks.dat";
+        string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
         cv::VideoCapture cap(0);
         if (!cap.isOpened())
         {
