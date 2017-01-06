@@ -1,4 +1,5 @@
 #include "QMediaPlayer"
+#include "QSound"
 #include "QObject"
 #ifndef SOUNDOBJECT_H
 #define SOUNDOBJECT_H
