@@ -8,16 +8,25 @@
 #include <dlib/image_processing.h>
 #include <dlib/gui_widgets.h>
 #include <dlib/image_io.h>
+#include <QObject>
 
 using namespace std;
 using namespace dlib;
 
-class FaceDetection
+class FaceDetection : public QObject
 {
+    Q_OBJECT
+
 public:
     FaceDetection();
     ~FaceDetection();
     int detectFaces();
+private:
+    bool isMouthOpen;
+    int mouthOpenCounter;
+    int const mouthOpenCounterThreshold;
+signals:
+    void signalMouthOpenEvent();
 };
 
 #endif // FACEDETECTION_H

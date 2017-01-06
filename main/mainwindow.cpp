@@ -7,6 +7,7 @@
 #include <math.h>
 #include "game/game.h"
 #include "facedetection/facedetection.h"
+#include "soundSystem/soundsystem.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,8 +27,8 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::initialize(){
-
-
+    QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
+                        &sound, SLOT(handleMouthOpenEvent(void)));
 }
 
 void MainWindow::on_faceBtn_clicked()

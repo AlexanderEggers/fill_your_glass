@@ -1,10 +1,12 @@
-#include "QMediaPlayer"
-#include "QSound"
-#include "QObject"
-#ifndef SOUNDOBJECT_H
-#define SOUNDOBJECT_H
+#include <QMediaPlayer>
+#include <QSound>
+#include <QObject>
+#ifndef SOUNDSYSTEM_H
+#define SOUNDSYSTEM_H
 
-class SoundSystem {
+class SoundSystem : public QObject {
+    Q_OBJECT
+
 public:
     SoundSystem(QObject* parent);
     void init();
@@ -14,7 +16,10 @@ private:
     void start();
 private:
     QMediaPlayer* player;
+    bool isPlaying;
+public slots:
+    void handleMouthOpenEvent();
 };
 
 
-#endif // SOUNDOBJECT_H
+#endif // SOUNDSYSTEM_H

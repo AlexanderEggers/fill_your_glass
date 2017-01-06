@@ -1,6 +1,7 @@
 #include "game.h"
 #include "ui_game.h"
 #include <QApplication>
+#include <QDebug>
 
 Game::Game(QWidget *parent) :
     QWidget(parent),
@@ -13,7 +14,6 @@ Game::~Game()
 {
     delete ui;
 }
-
 
 
 
