@@ -25,21 +25,20 @@
    <property name="text">
     <string/>
    </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>411</width>
-     <height>281</height>
-    </rect>
+   <property name="icon">
+    <iconset resource="../images.qrc">
+     <normaloff>:/images/startscreen.jpg</normaloff>:/images/startscreen.jpg</iconset>
    </property>
-   <property name="text">
-    <string/>
+   <property name="iconSize">
+    <size>
+     <width>500</width>
+     <height>500</height>
+    </size>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../images.qrc"/>
+ </resources>
  <connections/>
 </ui>

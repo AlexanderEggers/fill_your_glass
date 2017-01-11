@@ -34,3 +34,5 @@ include(facedetection/facedetection.pri)
 include(game/game.pri)
 
 DISTFILES +=
+RESOURCES += \
+    $$PWD/images.qrc
