@@ -16,9 +16,9 @@ TEMPLATE = app
 INCLUDEPATH += audioengine\
                 oscillator\
                 main\
-                "D:\dlib_build\include"
+                "C:\dlib_build\include"
 
-LIBS += -L"D:\dlib_build\lib" -ldlib
+LIBS += -L"C:\dlib_build\lib" -ldlib
 
 QMAKE_CXXFLAGS_RELEASE += /arch:AVX
 

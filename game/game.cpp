@@ -26,6 +26,6 @@ Game::~Game()
 void Game::on_pushButton_clicked()
 {
     ui->pushButton->setVisible(false);
-    QPixmap introPic ("/images/intro_Pic.jpg");
+    QPixmap introPic (":/images/intro_Pic.jpg");
 
 }
