@@ -13,32 +13,30 @@
   <property name="windowTitle">
    <string>Fill The Glass</string>
   </property>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>411</width>
-     <height>281</height>
+     <x>0</x>
+     <y>0</y>
+     <width>431</width>
+     <height>301</height>
     </rect>
    </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset resource="../images.qrc">
-     <normaloff>:/images/startscreen.jpg</normaloff>:/images/startscreen.jpg</iconset>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>500</width>
-     <height>500</height>
-    </size>
-   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>421</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources>
-  <include location="../images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -39,6 +39,7 @@ int FaceDetection::detectFaces(){
 
         //Pfad Ninja
         string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
+
         cv::VideoCapture cap(0);
         if (!cap.isOpened())
         {

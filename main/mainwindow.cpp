@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     initialize();
+    MainWindow::setWindowTitle("Fill Your Glass");
 }
 
 MainWindow::~MainWindow()
