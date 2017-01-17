@@ -18,7 +18,7 @@ void SoundSystem::init(){
 }
 
 void SoundSystem::load(){
-    player->setMedia(QUrl("qrc:/test_sound.wav"));
+    player->setMedia(QUrl("qrc:/test.mp3"));
 }
 
 void SoundSystem::start(){
@@ -36,11 +36,16 @@ void SoundSystem::handleMouthOpenEvent(){
         qDebug()<<"playing sound";
         // angeblich funktiniert QSound auch asynchron, deswegen hab ich es damit versucht. Wird aber trotzdem
         // erst nach schließen des facetracking fensters gestartet
-        QSound::play(":/test_sound.wav");
+        //QSound::play(":/test_sound.wav");
 
         player->play();
         isPlaying = true;
     }
+
+}
+
+void SoundSystem::handleMouthClosedEvent(){
+    qDebug()<<"MouthClosedEvent catched";
 
 }
 

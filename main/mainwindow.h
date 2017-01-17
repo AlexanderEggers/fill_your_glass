@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QAudioOutput>
+#include <QThread>
 #include "audioplayer.h"
 #include "oscillatorsource.h"
 #include "soundsystem.h"

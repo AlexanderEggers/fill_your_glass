@@ -25,8 +25,11 @@ private:
     bool isMouthOpen;
     int mouthOpenCounter;
     int const mouthOpenCounterThreshold;
+    int mouthClosedCounter;
+    int const mouthClosedCounterThreshold;
 signals:
     void signalMouthOpenEvent();
+    void signalMouthClosedEvent();
 };
 
 #endif // FACEDETECTION_H

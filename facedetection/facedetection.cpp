@@ -18,7 +18,9 @@ using namespace dlib;
 FaceDetection::FaceDetection():
     isMouthOpen(false),
     mouthOpenCounter(0),
-    mouthOpenCounterThreshold(5)
+    mouthOpenCounterThreshold(5),
+    mouthClosedCounter(0),
+    mouthClosedCounterThreshold(3)
 {
 }
 
@@ -35,10 +37,10 @@ int FaceDetection::detectFaces(){
         //download from http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2, extract and copy the path into this string
 
         //Pfad Lennart
-      //string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
+      string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Ninja
-        string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
+        //string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
         cv::VideoCapture cap(0);
         if (!cap.isOpened())
         {
@@ -90,17 +92,24 @@ int FaceDetection::detectFaces(){
                 // landmarks 62 and 66 are the inner lip points that are centered. other pairs are (61,67)->left and (63,65)->right
                 int distanceMouth1 = sqrt((shape.part(62).x() - shape.part(66).x())^2 - (shape.part(62).y() - shape.part(66).y())^2);
                 if (distanceMouth1 < 10 && distanceMouth1 > 2) {
+                    mouthClosedCounter = 0;
                     mouthOpenCounter++;
-                    qDebug()<<"Mouth open!";
                     if (!isMouthOpen && mouthOpenCounter == mouthOpenCounterThreshold) {
                         isMouthOpen = true;
+                        qDebug()<<"Mouth open!";
                         emit signalMouthOpenEvent();
                     }
 
                 } else {
-                    isMouthOpen = false;
                     mouthOpenCounter = 0;
-                    qDebug()<<"Mouth closed!";
+                    mouthClosedCounter++;
+                    if (isMouthOpen && mouthClosedCounter == mouthClosedCounterThreshold) {
+                        isMouthOpen = false;
+                        qDebug()<<"Mouth closed!";
+                        emit signalMouthClosedEvent();
+
+                    }
+
                 }
 
             }

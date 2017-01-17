@@ -29,6 +29,8 @@ MainWindow::~MainWindow()
 void MainWindow::initialize(){
     QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
                         &sound, SLOT(handleMouthOpenEvent(void)));
+    QObject::connect(&faceDetection, SIGNAL(signalMouthClosedEvent(void)),
+                        &sound, SLOT(handleMouthClosedEvent(void)));
 }
 
 void MainWindow::on_faceBtn_clicked()

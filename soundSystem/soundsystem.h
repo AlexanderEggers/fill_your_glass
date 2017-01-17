@@ -19,6 +19,7 @@ private:
     bool isPlaying;
 public slots:
     void handleMouthOpenEvent();
+    void handleMouthClosedEvent();
 };
 
 
