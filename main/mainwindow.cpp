@@ -32,6 +32,8 @@ void MainWindow::initialize(){
                         &sound, SLOT(handleMouthOpenEvent(void)));
     QObject::connect(&faceDetection, SIGNAL(signalMouthClosedEvent(void)),
                         &sound, SLOT(handleMouthClosedEvent(void)));
+    soundThread.start();
+    sound.moveToThread(&soundThread);
 }
 
 void MainWindow::on_faceBtn_clicked()

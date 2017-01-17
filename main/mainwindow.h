@@ -36,6 +36,7 @@ private:
     AudioPlayer audioPlayer;
     SoundSystem sound;
     FaceDetection faceDetection;
+    QThread soundThread;
 };
 
 #endif // MAINWINDOW_H
