@@ -6,7 +6,8 @@
 #include "QStackedWidget"
 #include "QTimer"
 #include "QLabel"
-#include "soundSystem/soundsystem.h"
+#include "soundsystem.h"
+#include "facedetection.h"
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +49,7 @@ private:
     QLabel *guiTime1, *guiTime2;
 
     SoundSystem sound;
+    //FaceDetection faceDetection;
 };
 
 #endif // MAINWINDOW_H

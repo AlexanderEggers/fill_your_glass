@@ -3,13 +3,9 @@
 #include "QVBoxLayout"
 #include "QHBoxLayout"
 #include "QPushButton"
-#include "QStackedWidget"
 #include "QComboBox"
 #include "QDebug"
-#include "QLabel"
-#include "QTimer"
 #include <stdlib.h>
-#include "soundSystem/soundsystem.h"
 #include "QProcess"
 
 const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
@@ -25,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     sound(new SoundSystem(parent))
+    //faceDetection(new FaceDetection(parent))
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
@@ -242,6 +239,7 @@ void MainWindow::showNextWindow()
             break;
         case PLAYER1_READY_SCREEN:
             sound.initPlayerSound();
+            //faceDetection.detectFaces();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
@@ -252,6 +250,7 @@ void MainWindow::showNextWindow()
             break;
         case PLAYER2_READY_SCREEN:
             sound.initPlayerSound();
+            //faceDetection.detectFaces();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);

@@ -11,16 +11,12 @@
 #include <QApplication>
 #include <QObject>
 
-using namespace std;
-using namespace dlib;
+int const mouthOpenCounterThreshold = 5, mouthClosedCounterThreshold = 3;
 
-
-FaceDetection::FaceDetection():
+FaceDetection::FaceDetection(QObject * parent = 0):
     isMouthOpen(false),
     mouthOpenCounter(0),
-    mouthOpenCounterThreshold(5),
-    mouthClosedCounter(0),
-    mouthClosedCounterThreshold(3)
+    mouthClosedCounter(0)
 {
 }
 
@@ -30,7 +26,7 @@ FaceDetection::~FaceDetection()
 }
 
 
-int FaceDetection::detectFaces(){
+void FaceDetection::detectFaces(){
 
     try
     {
@@ -43,13 +39,16 @@ int FaceDetection::detectFaces(){
         //string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Nadine
-        string pathToSPDat = "C:/Users/diniw/Desktop/AVPRG/shape_predictor_68_face_landmarks.dat";
+        //string pathToSPDat = "C:/Users/diniw/Desktop/AVPRG/shape_predictor_68_face_landmarks.dat";
+
+        //Pfad Alex
+        string pathToSPDat = "C:/Users/Alexander/Documents/Projects/fill-your-glass/shape_predictor_68_face_landmarks.dat";
 
         cv::VideoCapture cap(0);
         if (!cap.isOpened())
         {
             cerr << "Unable to connect to camera" << endl;
-            return 1;
+            return;
         }
 
         image_window win;
@@ -101,7 +100,7 @@ int FaceDetection::detectFaces(){
                     if (!isMouthOpen && mouthOpenCounter == mouthOpenCounterThreshold) {
                         isMouthOpen = true;
                         qDebug()<<"Mouth open!";
-                        emit signalMouthOpenEvent();
+                        emit updatePlayerInput();
                     }
 
                 } else {
@@ -110,7 +109,7 @@ int FaceDetection::detectFaces(){
                     if (isMouthOpen && mouthClosedCounter == mouthClosedCounterThreshold) {
                         isMouthOpen = false;
                         qDebug()<<"Mouth closed!";
-                        emit signalMouthClosedEvent();
+                        emit stopPlayerSound();
 
                     }
 
