@@ -32,6 +32,15 @@ FORMS    += mainwindow.ui
 
 include(audioengine/audioplayer.pri)
 include(soundSystem/soundSystem.pri)
+include(opencv/opencv.pri)
+include(opencv/videoengine.pri)
+include(facedetection/facedetection.pri)
 
 RESOURCES += \
     $$PWD/images.qrc
+
+LIBS += -L"C:\dlib_build\lib" -ldlib
+
+QMAKE_CXXFLAGS_RELEASE += /arch:AVX
+
+QMAKE_CXXFLAGS += -DDLIB_JPEG_SUPPORT
