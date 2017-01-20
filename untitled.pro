@@ -39,7 +39,8 @@ include(opencv/videoengine.pri)
 include(facedetection/facedetection.pri)
 
 RESOURCES += \
-    $$PWD/images.qrc
+    $$PWD/images.qrc \
+    $$PWD/sounds.qrc
 
 LIBS += -L"C:\dlib_build\lib" -ldlib
 

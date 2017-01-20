@@ -12,7 +12,4 @@ SOURCES += \
 DISTFILES += \
     soundSystem/test_sound.wav
 
-RESOURCES += \
-    $$PWD/sounds.qrc
-
 
