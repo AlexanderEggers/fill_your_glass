@@ -8,19 +8,38 @@
 #include "QDebug"
 #include "QLabel"
 #include "QTimer"
+#include <stdlib.h>
+#include "soundSystem/soundsystem.h"
+#include "QProcess"
 
 const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
-PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_DONE_SCREEN = 6;
+PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_RESULT_SCREEN = 6;
+
+const int PLAYER1 = 1, PLAYER2 = 2;
+
+const int PLAYER_INPUT_CHANGE_VALUE = 10;
+
+int const MainWindow::EXIT_CODE_REBOOT = -123456789;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    stackedWidget(new QStackedWidget),
-    source(STARTSCREEN),
-    timeLeft(30)
+    sound(new SoundSystem(parent))
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+    initGame();
+}
+
+void MainWindow::initGame() {
+    stackedWidget = new QStackedWidget;
+    source = STARTSCREEN;
+    timeLeft = 30;
+    player1Input = 0;
+    player2Input = 0;
+    currentPlayer = 0;
+
+    sound.initSound();
 
     qTimer = new QTimer(this);
     connect(qTimer, SIGNAL(timeout()), this, SLOT(updateGUITime()));
@@ -34,10 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
     stackedWidget = new QStackedWidget;
     stackedWidget->addWidget(initStartScreen());
     stackedWidget->addWidget(initIntructionScreen());
-    stackedWidget->addWidget(initPlayerReadyScreen(1));
-    stackedWidget->addWidget(initGameScreen(1));
-    stackedWidget->addWidget(initPlayerReadyScreen(2));
-    stackedWidget->addWidget(initGameScreen(2));
+    stackedWidget->addWidget(initPlayerReadyScreen(PLAYER1));
+    stackedWidget->addWidget(initGameScreen(PLAYER1));
+    stackedWidget->addWidget(initPlayerReadyScreen(PLAYER2));
+    stackedWidget->addWidget(initGameScreen(PLAYER2));
 
     QVBoxLayout *box = new QVBoxLayout;
     box->addWidget(stackedWidget);
@@ -64,7 +83,7 @@ QWidget* MainWindow::initStartScreen() {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
-    connect(button, SIGNAL (released()), this, SLOT (handleButton()));
+    connect(button, SIGNAL (released()), this, SLOT (showNextWindow()));
 
     layout->addWidget(label);
     layout->addWidget(button);
@@ -83,7 +102,7 @@ QWidget* MainWindow::initIntructionScreen() {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
-    connect(button, SIGNAL (released()), this, SLOT (handleButton()));
+    connect(button, SIGNAL (released()), this, SLOT (showNextWindow()));
 
     layout->addWidget(label);
     layout->addWidget(button);
@@ -98,7 +117,7 @@ QWidget* MainWindow::initPlayerReadyScreen(int player) {
 
     QLabel *label = new QLabel;
     QString imageURI = "";
-    if(player == 1) {
+    if(player == PLAYER1) {
         imageURI = ":/images/player_ready.jpg";
     } else {
         imageURI = ":/images/player_ready.jpg";
@@ -108,11 +127,15 @@ QWidget* MainWindow::initPlayerReadyScreen(int player) {
     image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
-    QPushButton *button = new QPushButton("Ready");
-    connect(button, SIGNAL (released()), this, SLOT (handleButton()));
+    QPushButton *readyButton = new QPushButton("Ready");
+    connect(readyButton, SIGNAL (released()), this, SLOT (showNextWindow()));
+
+    QPushButton *gameSoundButton = new QPushButton("Play Game Sound");
+    connect(gameSoundButton, SIGNAL (released()), this, SLOT (playGameSound()));
 
     layout->addWidget(label);
-    layout->addWidget(button);
+    layout->addWidget(readyButton);
+    layout->addWidget(gameSoundButton);
 
     widget->setLayout(layout);
     return widget;
@@ -127,7 +150,7 @@ QWidget* MainWindow::initGameScreen(int player) {
 
     QLabel *label = new QLabel;
     QString imageURI = "";
-    if(player == 1) {
+    if(player == PLAYER1) {
         guiTime1->setText("Remaining time: 30s");
         playername->setText("Player 1");
         imageURI = ":/images/player1_game_screen.jpg";
@@ -148,7 +171,7 @@ QWidget* MainWindow::initGameScreen(int player) {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Confirm");
-    connect(button, SIGNAL (released()), this, SLOT (handleButton()));
+    connect(button, SIGNAL (released()), this, SLOT (showNextWindow()));
 
     QWidget *header = new QWidget;
     header->setLayout(headerLayout);
@@ -162,7 +185,44 @@ QWidget* MainWindow::initGameScreen(int player) {
     return widget;
 }
 
-void MainWindow::handleButton()
+QWidget* MainWindow::initResultScreen() {
+    QWidget *widget = new QWidget;
+    QVBoxLayout *layout = new QVBoxLayout;
+
+    QLabel *label = new QLabel;
+    QString imageURI = "";
+    int soundGameValue = sound.getSoundGameValue();
+    int player1InputDiff = abs(soundGameValue - player1Input);
+    int player2InputDiff = abs(soundGameValue - player2Input);
+
+    if(player1InputDiff < player2InputDiff) {
+        imageURI = ":/images/player_ready.jpg";
+    } else if(player1InputDiff > player2InputDiff) {
+        imageURI = ":/images/player_ready.jpg";
+    } else {
+        imageURI = ":/images/player_ready.jpg";
+    }
+
+    QPixmap image(imageURI);
+    image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    label->setPixmap(image);
+
+    QPushButton *buttonQuit = new QPushButton("Quit");
+    connect(buttonQuit, SIGNAL (released()), this, SLOT (quitGame()));
+
+    QPushButton *buttonRestart = new QPushButton("Restart");
+    connect(buttonRestart, SIGNAL (released()), this, SLOT (restartGame()));
+
+    layout->addWidget(label);
+    layout->addWidget(buttonQuit);
+    layout->addWidget(buttonRestart);
+
+    widget->setLayout(layout);
+    return widget;
+}
+
+
+void MainWindow::showNextWindow()
 {
     qDebug() << "source old: " << source;
 
@@ -181,6 +241,7 @@ void MainWindow::handleButton()
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_READY_SCREEN));
             break;
         case PLAYER1_READY_SCREEN:
+            sound.initPlayerSound();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
@@ -190,13 +251,15 @@ void MainWindow::handleButton()
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_READY_SCREEN));
             break;
         case PLAYER2_READY_SCREEN:
+            sound.initPlayerSound();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER2_GAME_SCREEN:
-            source = STARTSCREEN;
-            stackedWidget->setCurrentWidget(stackedWidget->widget(STARTSCREEN));
+            source = GAME_RESULT_SCREEN;
+            stackedWidget->addWidget(initResultScreen());
+            stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
             break;
         default:
             break;
@@ -209,8 +272,7 @@ void MainWindow::updateGUITime() {
     timeLeft = timeLeft - 1;
 
     if(timeLeft == 0) {
-        qTimer->stop();
-        timeLeft = 30;
+        showNextWindow();
     }
 
     QString guiText = "Remaining time: ";
@@ -227,5 +289,32 @@ void MainWindow::updateGUITime() {
         default:
             break;
     }
+}
+
+void MainWindow::updatePlayerInput() {
+    if(currentPlayer == PLAYER1) {
+        player1Input += PLAYER_INPUT_CHANGE_VALUE;
+        sound.updatePlayerSound(player1Input);
+    } else {
+        player2Input += PLAYER_INPUT_CHANGE_VALUE;
+        sound.updatePlayerSound(player2Input);
+    }
+}
+
+void MainWindow::stopPlayerSound() {
+    sound.stopPlayerSound();
+}
+
+void MainWindow::playGameSound() {
+    sound.playGameSound();
+}
+
+void MainWindow::quitGame() {
+    QApplication::quit();
+}
+
+void MainWindow::restartGame() {
+    qDebug() << "Performing application reboot...";
+    qApp->exit( MainWindow::EXIT_CODE_REBOOT );
 }
 

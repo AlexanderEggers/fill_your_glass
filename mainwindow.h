@@ -6,6 +6,7 @@
 #include "QStackedWidget"
 #include "QTimer"
 #include "QLabel"
+#include "soundSystem/soundsystem.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,24 +17,37 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    static int const EXIT_CODE_REBOOT;
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private slots:
-    void handleButton();
+    void showNextWindow();
     void updateGUITime();
+    void quitGame();
+    void restartGame();
+    void playGameSound();
+public slots:
+    void updatePlayerInput();
+    void stopPlayerSound();
 private:
-    QStackedWidget *stackedWidget;
-    Ui::MainWindow *ui;
+    void initGame();
     QWidget* initStartScreen();
     QWidget* initIntructionScreen();
     QWidget* initPlayerReadyScreen(int player);
     QWidget* initGameScreen(int player);
-
+    QWidget* initResultScreen();
 private:
     int source;
     int timeLeft;
+    int player1Input, player2Input;
+    int currentPlayer;
+
+    QStackedWidget *stackedWidget;
+    Ui::MainWindow *ui;
     QTimer *qTimer;
     QLabel *guiTime1, *guiTime2;
+
+    SoundSystem sound;
 };
 
 #endif // MAINWINDOW_H
