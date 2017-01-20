@@ -43,7 +43,7 @@ void MainWindow::on_faceBtn_clicked()
 
 void MainWindow::on_audioBtn_clicked()
 {
-    sound.init();
+    //sound.init();
 }
 
 void MainWindow::on_playBtn_clicked()

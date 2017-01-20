@@ -4,8 +4,30 @@
 #include "QObject"
 #include "QWidget"
 #include "QMediaPlayer"
+#include "QSoundEffect"
 
-SoundSystem::SoundSystem(QObject* parent):
+SoundSystem::SoundSystem(QObject * parent = 0):
+
+    effect(this)
+{
+    effect.setSource(QUrl::fromLocalFile(":/test_sound.wav"));
+    effect.setLoopCount(QSoundEffect::Infinite);
+    effect.setVolume(20);
+}
+
+void SoundSystem::handleMouthOpenEvent(){
+    qDebug()<<"MouthOpenEvent catched";
+    effect.play();
+}
+
+void SoundSystem::handleMouthClosedEvent(){
+    qDebug()<<"MouthClosedEvent catched";
+    effect.stop();
+}
+
+
+
+/*SoundSystem::SoundSystem(QObject* parent):
     isPlaying(false)
 {
     player = new QMediaPlayer(parent);
@@ -47,5 +69,5 @@ void SoundSystem::handleMouthOpenEvent(){
 void SoundSystem::handleMouthClosedEvent(){
     qDebug()<<"MouthClosedEvent catched";
 
-}
+}*/
 
