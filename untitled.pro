@@ -30,6 +30,8 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
+INCLUDEPATH += "C:\dlib_build\include"
+
 include(audioengine/audioplayer.pri)
 include(soundSystem/soundSystem.pri)
 include(opencv/opencv.pri)

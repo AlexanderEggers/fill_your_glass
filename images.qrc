@@ -5,5 +5,8 @@
 		<file>images/player_ready.jpg</file>
 		<file>images/player1_game_screen.jpg</file>
 		<file>images/player2_game_screen.jpg</file>
+		<file>images/playerOneWins.jpg</file>
+		<file>images/playerTwoWins.jpg</file>
+		<file>images/noPlayerWins.jpg</file>
     </qresource>
 </RCC>

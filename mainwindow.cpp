@@ -196,11 +196,11 @@ QWidget* MainWindow::initResultScreen() {
     int player2InputDiff = abs(soundGameValue - player2Input);
 
     if(player1InputDiff < player2InputDiff) {
-        imageURI = ":/images/player_ready.jpg";
+        imageURI = ":/images/playerOneWins.jpg";
     } else if(player1InputDiff > player2InputDiff) {
-        imageURI = ":/images/player_ready.jpg";
+        imageURI = ":/images/playerTwoWins.jpg";
     } else {
-        imageURI = ":/images/player_ready.jpg";
+        imageURI = ":/images/noPlayerWins.jpg";
     }
 
     QPixmap image(imageURI);
