@@ -28,4 +28,4 @@
 *.out
 *.app
 
-/fill-your-glass.pro.user
+*.user
