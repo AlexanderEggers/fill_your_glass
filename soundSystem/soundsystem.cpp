@@ -7,12 +7,9 @@
 #include "QSoundEffect"
 
 SoundSystem::SoundSystem(QObject * parent = 0):
-    effect(this)
+    effect(this),
+    soundGameValue(rand() % 90 + 20)
 {  
-}
-
-void SoundSystem::initSound() {
-    soundGameValue = rand() % 90 + 20;
     effect.setSource(QUrl::fromLocalFile(":/sounds/test_sound.wav"));
 }
 

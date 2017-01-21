@@ -8,7 +8,7 @@ QT       += core gui widgets multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Fill your Glass
+TARGET = fill-your-glass
 TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS

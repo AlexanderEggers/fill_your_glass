@@ -20,20 +20,23 @@ FaceDetection::FaceDetection(QObject * parent = 0):
 {
 }
 
-
 FaceDetection::~FaceDetection()
 {
 }
 
+void FaceDetection::stopDetectingFaces()
+{
+    //TODO: sollten wir anlegen, sodass wir dieses System pausieren können um Ressourcen sparen
+}
 
-void FaceDetection::detectFaces(){
-
+void FaceDetection::startDetectingFaces()
+{
     try
     {
         //download from http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2, extract and copy the path into this string
 
         //Pfad Lennart
-       //string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
+        //string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Ninja
         //string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
@@ -119,6 +122,7 @@ void FaceDetection::detectFaces(){
 
         }
     }
+
     catch(serialization_error& e)
     {
         cout << "You need dlib's default face landmarking model file to run this example." << endl;
@@ -126,6 +130,7 @@ void FaceDetection::detectFaces(){
         cout << "   http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2" << endl;
         cout << endl << e.what() << endl;
     }
+
     catch(exception& e)
     {
         cout << e.what() << endl;

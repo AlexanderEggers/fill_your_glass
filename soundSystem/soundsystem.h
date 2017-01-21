@@ -11,14 +11,13 @@ public:
     void play();
     void stop();
     int getSoundGameValue();
-    void initSound();
     void playGameSound();
     void initPlayerSound();
     void updatePlayerSound(int newVolume);
     void stopPlayerSound();
 private:
     QSoundEffect effect;
-    int soundGameValue;
+    const int soundGameValue;
 };
 
 

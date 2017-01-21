@@ -49,7 +49,7 @@ private:
     QLabel *guiTime1, *guiTime2;
 
     SoundSystem sound;
-    //FaceDetection faceDetection;
+    FaceDetection faceDetection;
 };
 
 #endif // MAINWINDOW_H

@@ -7,12 +7,14 @@
 #include "QDebug"
 #include <stdlib.h>
 #include "QProcess"
+#include "facedetection.h"
+#include "soundsystem.h"
 
 const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
 PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_RESULT_SCREEN = 6;
 
+const int PLAYER_GAME_TIME = 10;
 const int PLAYER1 = 1, PLAYER2 = 2;
-
 const int PLAYER_INPUT_CHANGE_VALUE = 10;
 
 int const MainWindow::EXIT_CODE_REBOOT = -123456789;
@@ -20,8 +22,8 @@ int const MainWindow::EXIT_CODE_REBOOT = -123456789;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    sound(new SoundSystem(parent))
-    //faceDetection(new FaceDetection(parent))
+    sound(new SoundSystem(parent)),
+    faceDetection(new FaceDetection(parent))
 {
     ui->setupUi(this);
     setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
@@ -31,12 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::initGame() {
     stackedWidget = new QStackedWidget;
     source = STARTSCREEN;
-    timeLeft = 30;
+    timeLeft = PLAYER_GAME_TIME;
     player1Input = 0;
     player2Input = 0;
     currentPlayer = 0;
-
-    sound.initSound();
 
     qTimer = new QTimer(this);
     connect(qTimer, SIGNAL(timeout()), this, SLOT(updateGUITime()));
@@ -225,7 +225,7 @@ void MainWindow::showNextWindow()
 
     if(qTimer->isActive()) {
         qTimer->stop();
-        timeLeft = 30;
+        timeLeft = PLAYER_GAME_TIME;
     }
 
     switch (source) {
@@ -239,23 +239,25 @@ void MainWindow::showNextWindow()
             break;
         case PLAYER1_READY_SCREEN:
             sound.initPlayerSound();
-            //faceDetection.detectFaces();
+            //faceDetection.startDetectingFaces();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER1_GAME_SCREEN:
+            //faceDetection.stopDetectingFaces();
             source = PLAYER2_READY_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_READY_SCREEN));
             break;
         case PLAYER2_READY_SCREEN:
             sound.initPlayerSound();
-            //faceDetection.detectFaces();
+            //faceDetection.startDetectingFaces();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER2_GAME_SCREEN:
+            //faceDetection.stopDetectingFaces();
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
