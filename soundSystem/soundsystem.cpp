@@ -32,7 +32,6 @@ void SoundSystem::startPlayerSound(){
 
 void SoundSystem::updatePlayerSound(double newVolume){
     effect.setVolume(newVolume);
-    effect.play();
 }
 
 void SoundSystem::stopPlayerSound(){

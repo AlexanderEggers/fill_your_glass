@@ -253,7 +253,7 @@ void MainWindow::showNextWindow()
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
-            //faceDetection.startDetectingFaces();
+            faceDetection.startDetectingFaces();
             break;
         case PLAYER1_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
@@ -267,7 +267,7 @@ void MainWindow::showNextWindow()
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
-            //faceDetection.startDetectingFaces();
+            faceDetection.startDetectingFaces();
             break;
         case PLAYER2_GAME_SCREEN:
             currentPlayer = NO_PLAYER;

@@ -110,19 +110,23 @@ void FaceDetection::startDetectingFaces()
                 if (mouthOpenRation > 0.1) {
                     mouthClosedCounter = 0;
                     mouthOpenCounter++;
-                    if (!isMouthOpen && mouthOpenCounter == mouthOpenCounterThreshold) {
-                        isMouthOpen = true;
-                        qDebug()<<"Mouth open!";
-                        emit signalMouthOpenEvent();
+                    if (mouthOpenCounter % mouthOpenCounterThreshold == 0) {
+                        qDebug()<<"Mouth open update!";
+                        emit updateMouthEvent();
+                        if (!isMouthOpen) {
+                            isMouthOpen = true;
+                            qDebug()<<"Mouth open!";
+                            emit startMouthEvent();
+                        }
                     }
 
                 } else {
                     mouthOpenCounter = 0;
                     mouthClosedCounter++;
-                    if (isMouthOpen && mouthClosedCounter == mouthClosedCounterThreshold) {
+                    if (isMouthOpen && mouthClosedCounter % mouthClosedCounterThreshold == 0) {
                         isMouthOpen = false;
                         qDebug()<<"Mouth closed!";
-                        emit signalMouthClosedEvent();
+                        emit endMouthEvent();
 
                     }
 
