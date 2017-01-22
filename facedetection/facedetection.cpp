@@ -24,12 +24,7 @@ FaceDetection::~FaceDetection()
 {
 }
 
-void FaceDetection::stopDetectingFaces()
-{
-    //TODO: sollten wir anlegen, sodass wir dieses System pausieren können um Ressourcen sparen
-}
-
-void FaceDetection::startDetectingFaces()
+void FaceDetection::detectingFaces()
 {
     try
     {
