@@ -10,7 +10,7 @@ public:
     SoundSystem(QObject* parent);
     void play();
     void stop();
-    int getSoundGameValue();
+    double getSoundGameValue();
     void playGameSound();
     void initPlayerSound();
     void startPlayerSound();
