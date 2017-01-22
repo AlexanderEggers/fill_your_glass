@@ -42,7 +42,7 @@ private:
 private:
     int source;
     int timeLeft;
-    int player1Input, player2Input;
+    double player1Input, player2Input;
     int currentPlayer;
 
     QStackedWidget *stackedWidget;

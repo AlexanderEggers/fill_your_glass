@@ -16,7 +16,7 @@ PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME
 
 const int PLAYER_GAME_TIME = 10;
 const int NO_PLAYER = 0, PLAYER1 = 1, PLAYER2 = 2;
-const int PLAYER_INPUT_CHANGE_VALUE = 10;
+const double PLAYER_INPUT_CHANGE_VALUE = 0.05;
 
 int const MainWindow::EXIT_CODE_REBOOT = -123456789;
 
@@ -253,7 +253,7 @@ void MainWindow::showNextWindow()
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
-            faceDetection.startDetectingFaces();
+            //faceDetection.startDetectingFaces();
             break;
         case PLAYER1_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
@@ -267,7 +267,7 @@ void MainWindow::showNextWindow()
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
-            faceDetection.startDetectingFaces();
+            //faceDetection.startDetectingFaces();
             break;
         case PLAYER2_GAME_SCREEN:
             currentPlayer = NO_PLAYER;

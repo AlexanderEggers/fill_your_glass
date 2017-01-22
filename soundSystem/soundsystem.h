@@ -14,11 +14,13 @@ public:
     void playGameSound();
     void initPlayerSound();
     void startPlayerSound();
-    void updatePlayerSound(int newVolume);
+    void updatePlayerSound(double newVolume);
     void stopPlayerSound();
 private:
     QSoundEffect effect;
-    const int soundGameValue;
+    const double soundGameValue;
+private:
+    double fRand(double fMin, double fMax);
 };
 
 
