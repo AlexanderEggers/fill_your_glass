@@ -53,7 +53,7 @@ void MainWindow::initGame() {
     QObject::connect(&faceDetection, SIGNAL(updateMouthEvent(void)),
                             this, SLOT(updatePlayerInput(void)));
     QObject::connect(&faceDetection, SIGNAL(endMouthEvent(void)),
-                            this, SLOT(stopPlayerInput(void)));
+                            this, SLOT(endPlayerInput(void)));
     soundThread.start();
     sound.moveToThread(&soundThread);
 
@@ -325,8 +325,8 @@ void MainWindow::updatePlayerInput() {
     }
 }
 
-void MainWindow::stopPlayerInput() {
-    qDebug() << "stopPlayerInput";
+void MainWindow::endPlayerInput() {
+    qDebug() << "endPlayerInput";
 
     if(currentPlayer == PLAYER1 || currentPlayer == PLAYER2) {
         sound.stopPlayerSound();
