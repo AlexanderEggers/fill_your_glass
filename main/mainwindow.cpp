@@ -77,6 +77,7 @@ void MainWindow::initGame() {
 
 MainWindow::~MainWindow()
 {
+    soundThread.quit();
     delete ui;
 }
 
