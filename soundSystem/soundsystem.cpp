@@ -5,10 +5,11 @@
 #include "QWidget"
 #include "QMediaPlayer"
 #include "QSoundEffect"
+#include <ctime>
 
 SoundSystem::SoundSystem(QObject * parent = 0):
     effect(this),
-    soundGameValue(((float)(rand() % 100 + 1)) / 100)
+    soundGameValue(getTrueRandom())
 {  
     effect.setSource(QUrl::fromLocalFile(":/sounds/test_sound.wav"));
 }
@@ -40,7 +41,12 @@ void SoundSystem::stopPlayerSound(){
     effect.stop();
 }
 
-int SoundSystem::getSoundGameValue() {
+double SoundSystem::getSoundGameValue() {
     return soundGameValue;
+}
+
+double SoundSystem::getTrueRandom() {
+    srand(time(NULL));
+    return ((float)(rand() % 100 + 5)) / (float)100;
 }
 

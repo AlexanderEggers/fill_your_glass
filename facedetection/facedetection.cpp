@@ -107,7 +107,7 @@ void FaceDetection::startDetectingFaces()
                 qDebug()<<distanceMouthHorizontal;
                 qDebug()<<mouthOpenRation;
                 qDebug()<<"---------";
-                if (mouthOpenRation > 0.1) {
+                if (mouthOpenRation > 0.18) {
                     mouthClosedCounter = 0;
                     mouthOpenCounter++;
                     if (mouthOpenCounter % mouthOpenCounterThreshold == 0) {
@@ -135,7 +135,7 @@ void FaceDetection::startDetectingFaces()
             }
 
         }
-
+        emit endMouthEvent();
         win.close_window();
     }
 

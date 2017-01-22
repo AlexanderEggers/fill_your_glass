@@ -16,7 +16,7 @@ PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME
 
 const int PLAYER_GAME_TIME = 10;
 const int NO_PLAYER = 0, PLAYER1 = 1, PLAYER2 = 2;
-const double PLAYER_INPUT_CHANGE_VALUE = 0.05;
+const double PLAYER_INPUT_CHANGE_VALUE = 0.02;
 
 int const MainWindow::EXIT_CODE_REBOOT = -123456789;
 
@@ -199,9 +199,9 @@ QWidget* MainWindow::initResultScreen() {
 
     QLabel *label = new QLabel;
     QString imageURI = "";
-    int soundGameValue = sound.getSoundGameValue();
-    int player1InputDiff = abs(soundGameValue - player1Input);
-    int player2InputDiff = abs(soundGameValue - player2Input);
+    double soundGameValue = sound.getSoundGameValue();
+    double player1InputDiff = abs(soundGameValue - player1Input);
+    double player2InputDiff = abs(soundGameValue - player2Input);
 
     if(player1InputDiff < player2InputDiff) {
         imageURI = ":/images/playerOneWins.jpg";
@@ -276,6 +276,9 @@ void MainWindow::showNextWindow()
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
+            qDebug()<<player1Input;
+            qDebug()<<player2Input;
+            qDebug()<<sound.getSoundGameValue();
             break;
         default:
             break;
