@@ -17,6 +17,7 @@ SoundSystem::SoundSystem(QObject * parent = 0):
 void SoundSystem::playGameSound() {
     qDebug() << soundGameValue;
 
+    effect.stop();
     effect.setVolume(soundGameValue);
     effect.setLoopCount(1);
     effect.play();
@@ -24,7 +25,7 @@ void SoundSystem::playGameSound() {
 
 void SoundSystem::initPlayerSound() {
     effect.stop();
-    effect.setVolume(0.10);
+    effect.setVolume(0.05);
     effect.setLoopCount(QSoundEffect::Infinite);
 }
 
