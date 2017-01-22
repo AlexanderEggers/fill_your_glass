@@ -8,12 +8,14 @@
 
 SoundSystem::SoundSystem(QObject * parent = 0):
     effect(this),
-    soundGameValue(fRand(1.0, 0.2))
+    soundGameValue(((float)(rand() % 100 + 1)) / 100)
 {  
     effect.setSource(QUrl::fromLocalFile(":/sounds/test_sound.wav"));
 }
 
 void SoundSystem::playGameSound() {
+    qDebug() << soundGameValue;
+
     effect.setVolume(soundGameValue);
     effect.setLoopCount(1);
     effect.play();
@@ -40,11 +42,5 @@ void SoundSystem::stopPlayerSound(){
 
 int SoundSystem::getSoundGameValue() {
     return soundGameValue;
-}
-
-double SoundSystem::fRand(double fMin, double fMax)
-{
-    double f = (double)rand() / 1;
-    return fMin + f * (fMax - fMin);
 }
 

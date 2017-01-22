@@ -19,8 +19,6 @@ public:
 private:
     QSoundEffect effect;
     const double soundGameValue;
-private:
-    double fRand(double fMin, double fMax);
 };
 
 
