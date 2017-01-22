@@ -48,7 +48,10 @@ void MainWindow::initGame() {
     guiTime2 = new QLabel;
     guiTime2->setAlignment(Qt::AlignRight);
 
-    faceDetection.detectingFaces();
+    faceDetectionThread.start();
+    faceDetection.moveToThread(&faceDetectionThread);
+
+    //faceDetection.detectingFaces();
 
     QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
                             this, SLOT(updatePlayerInput(void)));

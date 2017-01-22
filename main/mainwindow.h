@@ -49,7 +49,7 @@ private:
     QTimer *qTimer;
     QLabel *guiTime1, *guiTime2;
 
-    QThread soundThread;
+    QThread soundThread, faceDetectionThread;
 
     SoundSystem sound;
     FaceDetection faceDetection;
