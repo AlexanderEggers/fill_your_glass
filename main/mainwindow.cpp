@@ -48,10 +48,12 @@ void MainWindow::initGame() {
     guiTime2 = new QLabel;
     guiTime2->setAlignment(Qt::AlignRight);
 
-    QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
+    QObject::connect(&faceDetection, SIGNAL(startMouthEvent(void)),
+                            this, SLOT(startPlayerInput(void)));
+    QObject::connect(&faceDetection, SIGNAL(updateMouthEvent(void)),
                             this, SLOT(updatePlayerInput(void)));
-    QObject::connect(&faceDetection, SIGNAL(signalMouthClosedEvent(void)),
-                            this, SLOT(stopPlayerSound(void)));
+    QObject::connect(&faceDetection, SIGNAL(endMouthEvent(void)),
+                            this, SLOT(stopPlayerInput(void)));
     soundThread.start();
     sound.moveToThread(&soundThread);
 
@@ -248,10 +250,10 @@ void MainWindow::showNextWindow()
         case PLAYER1_READY_SCREEN:
             currentPlayer = PLAYER1;
             sound.initPlayerSound();
-            faceDetection.startDetectingFaces();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
+            faceDetection.startDetectingFaces();
             break;
         case PLAYER1_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
@@ -262,10 +264,10 @@ void MainWindow::showNextWindow()
         case PLAYER2_READY_SCREEN:
             currentPlayer = PLAYER2;
             sound.initPlayerSound();
-            faceDetection.startDetectingFaces();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
+            faceDetection.startDetectingFaces();
             break;
         case PLAYER2_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
@@ -285,7 +287,7 @@ void MainWindow::updateGUITime() {
     timeLeft = timeLeft - 1;
     if(timeLeft == 0) {
         showNextWindow();
-    }
+    }  
 
     QString guiText = "Remaining time: ";
     guiText += QString::number(timeLeft);
@@ -303,6 +305,14 @@ void MainWindow::updateGUITime() {
     }
 }
 
+void MainWindow::startPlayerInput() {
+    qDebug() << "startPlayerInput";
+
+    if(currentPlayer == PLAYER1 || currentPlayer == PLAYER2) {
+        sound.startPlayerSound();
+    }
+}
+
 void MainWindow::updatePlayerInput() {
     qDebug() << "updatePlayerInput";
 
@@ -315,8 +325,8 @@ void MainWindow::updatePlayerInput() {
     }
 }
 
-void MainWindow::stopPlayerSound() {
-    qDebug() << "stopPlayerSound";
+void MainWindow::stopPlayerInput() {
+    qDebug() << "stopPlayerInput";
 
     if(currentPlayer == PLAYER1 || currentPlayer == PLAYER2) {
         sound.stopPlayerSound();

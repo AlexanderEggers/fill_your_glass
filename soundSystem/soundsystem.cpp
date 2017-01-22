@@ -25,10 +25,13 @@ void SoundSystem::initPlayerSound() {
     effect.setLoopCount(QSoundEffect::Infinite);
 }
 
-void SoundSystem::updatePlayerSound(int newVolume){
+void SoundSystem::startPlayerSound(){
     effect.stop();
-    effect.setVolume(newVolume);
     effect.play();
+}
+
+void SoundSystem::updatePlayerSound(int newVolume){
+    effect.setVolume(newVolume);
 }
 
 void SoundSystem::stopPlayerSound(){

@@ -13,6 +13,7 @@ public:
     int getSoundGameValue();
     void playGameSound();
     void initPlayerSound();
+    void startPlayerSound();
     void updatePlayerSound(int newVolume);
     void stopPlayerSound();
 private:

@@ -64,7 +64,7 @@ void FaceDetection::startDetectingFaces()
         shape_predictor predictor;
         deserialize(pathToSPDat) >> predictor;
         // Grab and process frames until the main window is closed by the user.
-        while(detecting)
+        while(detecting && !win.is_closed())
         {
             // Grab a frame
             cv::Mat temp;
@@ -131,6 +131,8 @@ void FaceDetection::startDetectingFaces()
             }
 
         }
+
+        win.close_window();
     }
 
     catch(serialization_error& e)

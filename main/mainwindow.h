@@ -29,8 +29,9 @@ private slots:
     void restartGame();
     void playGameSound();
 public slots:
+    void startPlayerInput();
     void updatePlayerInput();
-    void stopPlayerSound();
+    void stopPlayerInput();
 private:
     void initGame();
     QWidget* initStartScreen();

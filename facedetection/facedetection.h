@@ -23,7 +23,7 @@ public:
     void startDetectingFaces();
     void stopDetectingFaces();
 private:
-    bool isMouthOpen;
+    bool isMouthOpen, detecting;
     int mouthOpenCounter;
     int mouthClosedCounter;
 signals:
