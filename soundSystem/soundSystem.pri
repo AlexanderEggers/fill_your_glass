@@ -1,15 +1,15 @@
-INCLUDEPATH += soundSystem
+INCLUDEPATH += soundsystem
 SOURCES 
 
 HEADERS 
 
 HEADERS += \
-    soundSystem/soundsystem.h
+    soundsystem/soundsystem.h
 
 SOURCES += \
-    soundSystem/soundsystem.cpp
+    soundsystem/soundsystem.cpp
 
 DISTFILES += \
-    soundSystem/test_sound.wav
+    soundsystem/test_sound.wav
 
 
