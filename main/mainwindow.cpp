@@ -9,6 +9,7 @@
 #include "QProcess"
 #include "facedetection.h"
 #include "soundsystem.h"
+#include "QThread"
 
 const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
 PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_RESULT_SCREEN = 6;
@@ -51,6 +52,8 @@ void MainWindow::initGame() {
                             this, SLOT(updatePlayerInput(void)));
     QObject::connect(&faceDetection, SIGNAL(signalMouthClosedEvent(void)),
                             this, SLOT(stopPlayerSound(void)));
+    soundThread.start();
+    sound.moveToThread(&soundThread);
 
     stackedWidget = new QStackedWidget;
     stackedWidget->addWidget(initStartScreen());
@@ -243,26 +246,28 @@ void MainWindow::showNextWindow()
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_READY_SCREEN));
             break;
         case PLAYER1_READY_SCREEN:
+            currentPlayer = PLAYER1;
             sound.initPlayerSound();
-            //faceDetection.startDetectingFaces();
+            faceDetection.startDetectingFaces();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER1_GAME_SCREEN:
-            //faceDetection.stopDetectingFaces();
+            currentPlayer = 0;
             source = PLAYER2_READY_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_READY_SCREEN));
             break;
         case PLAYER2_READY_SCREEN:
+            currentPlayer = PLAYER2;
             sound.initPlayerSound();
-            //faceDetection.startDetectingFaces();
+            faceDetection.startDetectingFaces();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER2_GAME_SCREEN:
-            //faceDetection.stopDetectingFaces();
+            currentPlayer = 0;
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
@@ -301,14 +306,16 @@ void MainWindow::updatePlayerInput() {
     if(currentPlayer == PLAYER1) {
         player1Input += PLAYER_INPUT_CHANGE_VALUE;
         sound.updatePlayerSound(player1Input);
-    } else {
+    } else if(currentPlayer == PLAYER2) {
         player2Input += PLAYER_INPUT_CHANGE_VALUE;
         sound.updatePlayerSound(player2Input);
     }
 }
 
 void MainWindow::stopPlayerSound() {
-    sound.stopPlayerSound();
+    if(currentPlayer == PLAYER1 || currentPlayer == PLAYER2) {
+        sound.stopPlayerSound();
+    }
 }
 
 void MainWindow::playGameSound() {

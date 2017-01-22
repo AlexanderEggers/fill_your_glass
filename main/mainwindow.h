@@ -8,6 +8,7 @@
 #include "QLabel"
 #include "soundsystem.h"
 #include "facedetection.h"
+#include "QThread"
 
 namespace Ui {
 class MainWindow;
@@ -47,6 +48,8 @@ private:
     Ui::MainWindow *ui;
     QTimer *qTimer;
     QLabel *guiTime1, *guiTime2;
+
+    QThread soundThread;
 
     SoundSystem sound;
     FaceDetection faceDetection;
