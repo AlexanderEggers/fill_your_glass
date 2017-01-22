@@ -31,7 +31,7 @@ private slots:
 public slots:
     void startPlayerInput();
     void updatePlayerInput();
-    void stopPlayerInput();
+    void endPlayerInput();
 private:
     void initGame();
     QWidget* initStartScreen();
