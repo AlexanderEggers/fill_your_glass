@@ -11,7 +11,7 @@ SoundSystem::SoundSystem(QObject * parent = 0):
     effect(this),
     soundGameValue(getTrueRandom())
 {  
-    effect.setSource(QUrl::fromLocalFile(":/sounds/test_sound.wav"));
+    effect.setSource(QUrl::fromLocalFile(":/sounds/game_sound.wav"));
 }
 
 void SoundSystem::playGameSound() {
