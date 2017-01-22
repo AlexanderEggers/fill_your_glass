@@ -88,7 +88,7 @@ void FaceDetection::detectingFaces()
             win.add_overlay(render_face_detections(shapes));
             for (dlib::full_object_detection shape: shapes) {
                 for(int i=49;i<68;i++) {
-                    win.add_overlay(dlib::image_window::overlay_circle(shape.part(i),2, rgb_pixel(255,0,0),std::to_string(i)));
+                    //win.add_overlay(dlib::image_window::overlay_circle(shape.part(i),2, rgb_pixel(255,0,0),std::to_string(i)));
                 }
                 // landmarks 62 and 66 are the inner lip points that are centered. other pairs are (61,67)->left and (63,65)->right
                 int distanceMouthVertical =  shape.part(66).y() - shape.part(62).y();
