@@ -1,5 +1,5 @@
-INCLUDEPATH += opencv
-HEADERS += opencv/cvmattoqimage.h
+INCLUDEPATH += src/opencv
+HEADERS += src/opencv/cvmattoqimage.h
 
 win32 {
     INCLUDEPATH += $$(OPENCV_DIR)\..\..\include

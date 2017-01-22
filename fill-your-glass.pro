@@ -15,10 +15,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += "C:\dlib_build\include"
 
-include(main/main.pri)
-include(soundsystem/soundsystem.pri)
-include(opencv/videoengine.pri)
-include(facedetection/facedetection.pri)
+include(src/main/main.pri)
+include(src/soundsystem/soundsystem.pri)
+include(src/opencv/videoengine.pri)
+include(src/facedetection/facedetection.pri)
 
 RESOURCES += \
     $$PWD/res/images.qrc \
