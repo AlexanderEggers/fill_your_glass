@@ -47,6 +47,11 @@ void MainWindow::initGame() {
     guiTime2 = new QLabel;
     guiTime2->setAlignment(Qt::AlignRight);
 
+    QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
+                            this, SLOT(updatePlayerInput(void)));
+    QObject::connect(&faceDetection, SIGNAL(signalMouthClosedEvent(void)),
+                            this, SLOT(stopPlayerSound(void)));
+
     stackedWidget = new QStackedWidget;
     stackedWidget->addWidget(initStartScreen());
     stackedWidget->addWidget(initIntructionScreen());
@@ -148,14 +153,14 @@ QWidget* MainWindow::initGameScreen(int player) {
     QLabel *label = new QLabel;
     QString imageURI = "";
     if(player == PLAYER1) {
-        guiTime1->setText("Remaining time: 30s");
+        guiTime1->setText("Remaining time: " + PLAYER_GAME_TIME);
         playername->setText("Player 1");
         imageURI = ":/images/player1_game_screen.jpg";
 
         headerLayout->addWidget(playername);
         headerLayout->addWidget(guiTime1);
     } else {
-        guiTime2->setText("Remaining time: 30s");
+        guiTime2->setText("Remaining time: " + PLAYER_GAME_TIME);
         playername->setText("Player 2");
         imageURI = ":/images/player2_game_screen.jpg";
 

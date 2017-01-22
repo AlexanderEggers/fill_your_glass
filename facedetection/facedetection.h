@@ -27,8 +27,8 @@ private:
     int mouthOpenCounter;
     int mouthClosedCounter;
 signals:
-    void updatePlayerInput();
-    void stopPlayerSound();
+    void signalMouthOpenEvent();
+    void signalMouthClosedEvent();
 };
 
 #endif // FACEDETECTION_H

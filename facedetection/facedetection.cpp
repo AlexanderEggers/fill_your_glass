@@ -103,7 +103,7 @@ void FaceDetection::startDetectingFaces()
                     if (!isMouthOpen && mouthOpenCounter == mouthOpenCounterThreshold) {
                         isMouthOpen = true;
                         qDebug()<<"Mouth open!";
-                        emit updatePlayerInput();
+                        emit signalMouthOpenEvent();
                     }
 
                 } else {
@@ -112,7 +112,7 @@ void FaceDetection::startDetectingFaces()
                     if (isMouthOpen && mouthClosedCounter == mouthClosedCounterThreshold) {
                         isMouthOpen = false;
                         qDebug()<<"Mouth closed!";
-                        emit stopPlayerSound();
+                        emit signalMouthClosedEvent();
 
                     }
 
