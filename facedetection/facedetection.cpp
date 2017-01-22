@@ -15,6 +15,7 @@ int const mouthOpenCounterThreshold = 5, mouthClosedCounterThreshold = 3;
 
 FaceDetection::FaceDetection(QObject * parent = 0):
     isMouthOpen(false),
+    detecting(true),
     mouthOpenCounter(0),
     mouthClosedCounter(0)
 {
@@ -24,8 +25,15 @@ FaceDetection::~FaceDetection()
 {
 }
 
-void FaceDetection::detectingFaces()
+void FaceDetection::stopDetectingFaces()
 {
+    detecting = false;
+}
+
+void FaceDetection::startDetectingFaces()
+{
+    detecting = true;
+
     try
     {
         //download from http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2, extract and copy the path into this string
@@ -56,7 +64,7 @@ void FaceDetection::detectingFaces()
         shape_predictor predictor;
         deserialize(pathToSPDat) >> predictor;
         // Grab and process frames until the main window is closed by the user.
-        while(!win.is_closed())
+        while(detecting)
         {
             // Grab a frame
             cv::Mat temp;

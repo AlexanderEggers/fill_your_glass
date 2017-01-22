@@ -48,11 +48,6 @@ void MainWindow::initGame() {
     guiTime2 = new QLabel;
     guiTime2->setAlignment(Qt::AlignRight);
 
-    faceDetectionThread.start();
-    faceDetection.moveToThread(&faceDetectionThread);
-
-    //faceDetection.detectingFaces();
-
     QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
                             this, SLOT(updatePlayerInput(void)));
     QObject::connect(&faceDetection, SIGNAL(signalMouthClosedEvent(void)),
@@ -253,24 +248,28 @@ void MainWindow::showNextWindow()
         case PLAYER1_READY_SCREEN:
             currentPlayer = PLAYER1;
             sound.initPlayerSound();
+            faceDetection.startDetectingFaces();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER1_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
+            faceDetection.stopDetectingFaces();
             source = PLAYER2_READY_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_READY_SCREEN));
             break;
         case PLAYER2_READY_SCREEN:
             currentPlayer = PLAYER2;
             sound.initPlayerSound();
+            faceDetection.startDetectingFaces();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER2_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
+            faceDetection.stopDetectingFaces();
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
