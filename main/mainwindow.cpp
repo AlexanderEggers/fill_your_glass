@@ -73,6 +73,7 @@ void MainWindow::initGame() {
 
     QWidget *startScreen = stackedWidget->widget(STARTSCREEN);
     stackedWidget->setCurrentWidget(startScreen);
+    connect(stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(showNextWindowExtra()));
 }
 
 MainWindow::~MainWindow()
@@ -254,7 +255,6 @@ void MainWindow::showNextWindow()
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
-            faceDetection.startDetectingFaces();
             break;
         case PLAYER1_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
@@ -268,7 +268,6 @@ void MainWindow::showNextWindow()
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
-            faceDetection.startDetectingFaces();
             break;
         case PLAYER2_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
@@ -276,15 +275,22 @@ void MainWindow::showNextWindow()
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
-            qDebug()<<player1Input;
-            qDebug()<<player2Input;
-            qDebug()<<sound.getSoundGameValue();
+            qDebug() << "Player 1: " << player1Input;
+            qDebug() << "Player 2: " << player2Input;
+            qDebug() << "Sound Game Value: " << sound.getSoundGameValue();
             break;
         default:
             break;
     }
 
     qDebug() << "source new: " << source;
+}
+
+void MainWindow::showNextWindowExtra() {
+    if(source == PLAYER1_GAME_SCREEN || source == PLAYER2_GAME_SCREEN) {
+        qDebug()<< "showWindowInit";
+        faceDetection.startDetectingFaces();
+    }
 }
 
 void MainWindow::updateGUITime() {
@@ -322,9 +328,15 @@ void MainWindow::updatePlayerInput() {
 
     if(currentPlayer == PLAYER1) {
         player1Input += PLAYER_INPUT_CHANGE_VALUE;
+        if(player1Input > 1.0) {
+            player1Input = 1.0;
+        }
         sound.updatePlayerSound(player1Input);
     } else if(currentPlayer == PLAYER2) {
         player2Input += PLAYER_INPUT_CHANGE_VALUE;
+        if(player2Input > 1.0) {
+            player2Input = 1.0;
+        }
         sound.updatePlayerSound(player2Input);
     }
 }

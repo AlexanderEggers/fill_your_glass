@@ -25,7 +25,7 @@ void SoundSystem::playGameSound() {
 
 void SoundSystem::initPlayerSound() {
     effect.stop();
-    effect.setVolume(0.05);
+    effect.setVolume(0.02);
     effect.setLoopCount(QSoundEffect::Infinite);
 }
 

@@ -28,6 +28,7 @@ private slots:
     void quitGame();
     void restartGame();
     void playGameSound();
+    void showNextWindowExtra();
 public slots:
     void startPlayerInput();
     void updatePlayerInput();

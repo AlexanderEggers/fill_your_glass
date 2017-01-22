@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += "C:\dlib_build\include"
 
 include(main/main.pri)
-include(audioengine/audioplayer.pri)
 include(soundSystem/soundSystem.pri)
 include(opencv/videoengine.pri)
 include(facedetection/facedetection.pri)
