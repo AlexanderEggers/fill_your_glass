@@ -36,7 +36,7 @@ void FaceDetection::startDetectingFaces()
         //download from http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2, extract and copy the path into this string
 
         //Pfad Lennart
-        //string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
+        string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Ninja
         //string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
@@ -45,7 +45,7 @@ void FaceDetection::startDetectingFaces()
         //string pathToSPDat = "C:/Users/diniw/Desktop/AVPRG/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Alex
-        string pathToSPDat = "C:/Users/Alexander/Documents/Projects/fill-your-glass/shape_predictor_68_face_landmarks.dat";
+        //string pathToSPDat = "C:/Users/Alexander/Documents/Projects/fill-your-glass/shape_predictor_68_face_landmarks.dat";
 
         cv::VideoCapture cap(0);
         if (!cap.isOpened())
@@ -93,11 +93,18 @@ void FaceDetection::startDetectingFaces()
             win.add_overlay(render_face_detections(shapes));
             for (dlib::full_object_detection shape: shapes) {
                 for(int i=49;i<68;i++) {
-                    //win.add_overlay(dlib::image_window::overlay_circle(shape.part(i),2, rgb_pixel(255,0,0),std::to_string(i)));
+                    win.add_overlay(dlib::image_window::overlay_circle(shape.part(i),2, rgb_pixel(255,0,0),std::to_string(i)));
                 }
                 // landmarks 62 and 66 are the inner lip points that are centered. other pairs are (61,67)->left and (63,65)->right
-                int distanceMouth1 = sqrt((shape.part(62).x() - shape.part(66).x())^2 - (shape.part(62).y() - shape.part(66).y())^2);
-                if (distanceMouth1 < 10 && distanceMouth1 > 2) {
+                int distanceMouthVertical =  shape.part(66).y() - shape.part(62).y();
+                int distanceMouthHorizontal = shape.part(64).x() - shape.part(60).x();
+                float mouthOpenRation = (float)distanceMouthVertical / (float)distanceMouthHorizontal;
+                qDebug()<<"---------";
+                qDebug()<<distanceMouthVertical;
+                qDebug()<<distanceMouthHorizontal;
+                qDebug()<<mouthOpenRation;
+                qDebug()<<"---------";
+                if (mouthOpenRation > 0.1) {
                     mouthClosedCounter = 0;
                     mouthOpenCounter++;
                     if (!isMouthOpen && mouthOpenCounter == mouthOpenCounterThreshold) {
