@@ -15,7 +15,7 @@ const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
 PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_RESULT_SCREEN = 6;
 
 const int PLAYER_GAME_TIME = 10;
-const int PLAYER1 = 1, PLAYER2 = 2;
+const int NO_PLAYER = 0, PLAYER1 = 1, PLAYER2 = 2;
 const int PLAYER_INPUT_CHANGE_VALUE = 10;
 
 int const MainWindow::EXIT_CODE_REBOOT = -123456789;
@@ -37,7 +37,7 @@ void MainWindow::initGame() {
     timeLeft = PLAYER_GAME_TIME;
     player1Input = 0;
     player2Input = 0;
-    currentPlayer = 0;
+    currentPlayer = NO_PLAYER;
 
     qTimer = new QTimer(this);
     connect(qTimer, SIGNAL(timeout()), this, SLOT(updateGUITime()));
@@ -47,6 +47,8 @@ void MainWindow::initGame() {
 
     guiTime2 = new QLabel;
     guiTime2->setAlignment(Qt::AlignRight);
+
+    faceDetection.detectingFaces();
 
     QObject::connect(&faceDetection, SIGNAL(signalMouthOpenEvent(void)),
                             this, SLOT(updatePlayerInput(void)));
@@ -248,26 +250,24 @@ void MainWindow::showNextWindow()
         case PLAYER1_READY_SCREEN:
             currentPlayer = PLAYER1;
             sound.initPlayerSound();
-            faceDetection.startDetectingFaces();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER1_GAME_SCREEN:
-            currentPlayer = 0;
+            currentPlayer = NO_PLAYER;
             source = PLAYER2_READY_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_READY_SCREEN));
             break;
         case PLAYER2_READY_SCREEN:
             currentPlayer = PLAYER2;
             sound.initPlayerSound();
-            faceDetection.startDetectingFaces();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
             qTimer->start(1000);
             break;
         case PLAYER2_GAME_SCREEN:
-            currentPlayer = 0;
+            currentPlayer = NO_PLAYER;
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
@@ -281,7 +281,6 @@ void MainWindow::showNextWindow()
 
 void MainWindow::updateGUITime() {
     timeLeft = timeLeft - 1;
-
     if(timeLeft == 0) {
         showNextWindow();
     }
@@ -303,6 +302,8 @@ void MainWindow::updateGUITime() {
 }
 
 void MainWindow::updatePlayerInput() {
+    qDebug() << "updatePlayerInput";
+
     if(currentPlayer == PLAYER1) {
         player1Input += PLAYER_INPUT_CHANGE_VALUE;
         sound.updatePlayerSound(player1Input);
@@ -313,6 +314,8 @@ void MainWindow::updatePlayerInput() {
 }
 
 void MainWindow::stopPlayerSound() {
+    qDebug() << "stopPlayerSound";
+
     if(currentPlayer == PLAYER1 || currentPlayer == PLAYER2) {
         sound.stopPlayerSound();
     }

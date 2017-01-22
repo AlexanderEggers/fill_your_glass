@@ -20,8 +20,7 @@ class FaceDetection : public QObject
 public:
     FaceDetection(QObject* parent);
     ~FaceDetection();
-    void startDetectingFaces();
-    void stopDetectingFaces();
+    void detectingFaces();
 private:
     bool isMouthOpen;
     int mouthOpenCounter;
