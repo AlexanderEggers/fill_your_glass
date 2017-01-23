@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     faceDetection(new FaceDetection(parent))
 {
     ui->setupUi(this);
+    setWindowTitle("Fill Your Glass");
     setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
     initGame();
 }
@@ -87,8 +88,8 @@ QWidget* MainWindow::initStartScreen() {
     QVBoxLayout *layout = new QVBoxLayout;
 
     QLabel *label = new QLabel;
-    QPixmap image(":/images/intro_Pic.jpg");
-    image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    QPixmap image(":/images/startscreen.jpg");
+    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
@@ -104,10 +105,9 @@ QWidget* MainWindow::initStartScreen() {
 QWidget* MainWindow::initIntructionScreen() {
     QWidget *widget = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout;
-
     QLabel *label = new QLabel;
-    QPixmap image(":/images/startscreen.jpg");
-    image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    QPixmap image(":/images/intro_Pic.jpg");
+    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
@@ -133,7 +133,7 @@ QWidget* MainWindow::initPlayerReadyScreen(int player) {
     }
 
     QPixmap image(imageURI);
-    image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *readyButton = new QPushButton("Ready");
@@ -176,7 +176,7 @@ QWidget* MainWindow::initGameScreen(int player) {
     }
 
     QPixmap image(imageURI);
-    image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Confirm");
@@ -213,7 +213,7 @@ QWidget* MainWindow::initResultScreen() {
     }
 
     QPixmap image(imageURI);
-    image = image.scaled(600,500,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *buttonQuit = new QPushButton("Quit");
