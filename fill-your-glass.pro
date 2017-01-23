@@ -13,7 +13,7 @@ TEMPLATE = app
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-INCLUDEPATH += "C:\dlib_build\include"
+INCLUDEPATH += "D:\dlib_build\include"
 
 include(src/main/main.pri)
 include(src/soundsystem/soundsystem.pri)
@@ -24,4 +24,4 @@ RESOURCES += \
     $$PWD/res/images.qrc \
     $$PWD/res/sounds.qrc
 
-LIBS += -L"C:\dlib_build\lib" -ldlib
+LIBS += -L"D:\dlib_build\lib" -ldlib

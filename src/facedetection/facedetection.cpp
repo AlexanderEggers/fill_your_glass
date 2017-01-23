@@ -42,13 +42,13 @@ void FaceDetection::startDetectingFaces()
         //string pathToSPDat = "C:/Users/Schmedes/Desktop/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Ninja
-        //string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
+        string pathToSPDat = "C:/Users/Ninja/Desktop/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Nadine
         //string pathToSPDat = "C:/Users/diniw/Desktop/AVPRG/shape_predictor_68_face_landmarks.dat";
 
         //Pfad Alex
-        string pathToSPDat = "C:/Users/Alexander/Documents/Projects/fill-your-glass/shape_predictor_68_face_landmarks.dat";
+        //string pathToSPDat = "C:/Users/Alexander/Documents/Projects/fill-your-glass/shape_predictor_68_face_landmarks.dat";
 
         cv::VideoCapture cap(0);
         if (!cap.isOpened())
