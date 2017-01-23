@@ -1,9 +1,6 @@
 #include "soundsystem.h"
-#include "QSound"
 #include "QDebug"
 #include "QObject"
-#include "QWidget"
-#include "QMediaPlayer"
 #include "QSoundEffect"
 #include <ctime>
 
@@ -55,6 +52,6 @@ double SoundSystem::getSoundGameValue() {
 
 double SoundSystem::getTrueRandom() {
     srand(time(NULL));
-    return ((float)(rand() % 100 + 5)) / (float)100;
+    return ((float)(rand() % 100 + 5)) / (float) 100;
 }
 
