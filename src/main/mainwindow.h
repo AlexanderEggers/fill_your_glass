@@ -4,8 +4,6 @@
 #include <QMainWindow>
 #include "QWidget"
 #include "QStackedWidget"
-#include "QTimer"
-#include "QLabel"
 #include "soundsystem.h"
 #include "facedetection.h"
 #include "QThread"
@@ -23,12 +21,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 private slots:
-    void showNextWindow();
-    void updateGUITime();
+    void showNextScreen();
     void quitGame();
     void restartGame();
     void playGameSound();
-    void showNextWindowExtra();
+    void showDetectionScreen();
 public slots:
     void startPlayerInput();
     void updatePlayerInput();
@@ -37,19 +34,16 @@ private:
     void initGame();
     QWidget* initStartScreen();
     QWidget* initIntructionScreen();
-    QWidget* initPlayerReadyScreen(int player);
+    QWidget* initPlayerReadyScreen();
     QWidget* initGameScreen(int player);
     QWidget* initResultScreen();
 private:
     int source;
-    int timeLeft;
     double player1Input, player2Input;
     int currentPlayer;
 
     QStackedWidget *stackedWidget;
     Ui::MainWindow *ui;
-    QTimer *qTimer;
-    QLabel *guiTime1, *guiTime2;
 
     QThread soundThread, faceDetectionThread;
 

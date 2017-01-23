@@ -8,10 +8,13 @@
 #include <ctime>
 
 SoundSystem::SoundSystem(QObject * parent = 0):
-    effect(this),
-    soundGameValue(getTrueRandom())
+    effect(this)
 {  
     effect.setSource(QUrl::fromLocalFile(":/sounds/game_sound.wav"));
+}
+
+void SoundSystem::initGameSound() {
+    soundGameValue = getTrueRandom();
 }
 
 void SoundSystem::playGameSound() {
@@ -21,6 +24,10 @@ void SoundSystem::playGameSound() {
     effect.setVolume(soundGameValue);
     effect.setLoopCount(1);
     effect.play();
+}
+
+void SoundSystem::stopGameSound() {
+    effect.stop();
 }
 
 void SoundSystem::initPlayerSound() {

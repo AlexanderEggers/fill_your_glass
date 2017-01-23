@@ -3,18 +3,16 @@
 #include "QVBoxLayout"
 #include "QHBoxLayout"
 #include "QPushButton"
-#include "QComboBox"
 #include "QDebug"
 #include <stdlib.h>
-#include "QProcess"
 #include "facedetection.h"
 #include "soundsystem.h"
 #include "QThread"
+#include "QLabel"
 
 const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
 PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_RESULT_SCREEN = 6;
 
-const int PLAYER_GAME_TIME = 10;
 const int NO_PLAYER = 0, PLAYER1 = 1, PLAYER2 = 2;
 const double PLAYER_INPUT_CHANGE_VALUE = 0.02;
 
@@ -28,26 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Fill Your Glass");
-    setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
-    initGame();
-}
-
-void MainWindow::initGame() {
-    stackedWidget = new QStackedWidget;
-    source = STARTSCREEN;
-    timeLeft = PLAYER_GAME_TIME;
-    player1Input = 0;
-    player2Input = 0;
-    currentPlayer = NO_PLAYER;
-
-    qTimer = new QTimer(this);
-    connect(qTimer, SIGNAL(timeout()), this, SLOT(updateGUITime()));
-
-    guiTime1 = new QLabel;
-    guiTime1->setAlignment(Qt::AlignRight);
-
-    guiTime2 = new QLabel;
-    guiTime2->setAlignment(Qt::AlignRight);
+    setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
+    setFixedHeight(525);
+    setFixedWidth(600);
 
     QObject::connect(&faceDetection, SIGNAL(startMouthEvent(void)),
                             this, SLOT(startPlayerInput(void)));
@@ -55,26 +36,42 @@ void MainWindow::initGame() {
                             this, SLOT(updatePlayerInput(void)));
     QObject::connect(&faceDetection, SIGNAL(endMouthEvent(void)),
                             this, SLOT(endPlayerInput(void)));
+
     soundThread.start();
     sound.moveToThread(&soundThread);
 
     stackedWidget = new QStackedWidget;
-    stackedWidget->addWidget(initStartScreen());
-    stackedWidget->addWidget(initIntructionScreen());
-    stackedWidget->addWidget(initPlayerReadyScreen(PLAYER1));
-    stackedWidget->addWidget(initGameScreen(PLAYER1));
-    stackedWidget->addWidget(initPlayerReadyScreen(PLAYER2));
-    stackedWidget->addWidget(initGameScreen(PLAYER2));
+
+    initGame();
 
     QVBoxLayout *box = new QVBoxLayout;
     box->addWidget(stackedWidget);
 
     QWidget *central = centralWidget();
     central->setLayout(box);
+}
 
-    QWidget *startScreen = stackedWidget->widget(STARTSCREEN);
-    stackedWidget->setCurrentWidget(startScreen);
-    connect(stackedWidget, SIGNAL(currentChanged(int)), this, SLOT(showNextWindowExtra()));
+void MainWindow::initGame() {
+    player1Input = 0;
+    player2Input = 0;
+    currentPlayer = NO_PLAYER;
+
+    sound.initGameSound();
+
+    if(stackedWidget->count() > 0) {
+        source = INTRODUCTION_SCREEN;
+        stackedWidget->removeWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
+        stackedWidget->setCurrentWidget(stackedWidget->widget(INTRODUCTION_SCREEN));
+    } else {
+        source = STARTSCREEN;
+        stackedWidget->addWidget(initStartScreen());
+        stackedWidget->addWidget(initIntructionScreen());
+        stackedWidget->addWidget(initPlayerReadyScreen());
+        stackedWidget->addWidget(initGameScreen(PLAYER1));
+        stackedWidget->addWidget(initPlayerReadyScreen());
+        stackedWidget->addWidget(initGameScreen(PLAYER2));
+        stackedWidget->setCurrentWidget(stackedWidget->widget(STARTSCREEN));
+    }
 }
 
 MainWindow::~MainWindow()
@@ -93,7 +90,7 @@ QWidget* MainWindow::initStartScreen() {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
-    connect(button, SIGNAL (released()), this, SLOT (showNextWindow()));
+    connect(button, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     layout->addWidget(label);
     layout->addWidget(button);
@@ -111,7 +108,7 @@ QWidget* MainWindow::initIntructionScreen() {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
-    connect(button, SIGNAL (released()), this, SLOT (showNextWindow()));
+    connect(button, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     layout->addWidget(label);
     layout->addWidget(button);
@@ -120,29 +117,23 @@ QWidget* MainWindow::initIntructionScreen() {
     return widget;
 }
 
-QWidget* MainWindow::initPlayerReadyScreen(int player) {
+QWidget* MainWindow::initPlayerReadyScreen() {
     QWidget *widget = new QWidget;
     QVBoxLayout *layout = new QVBoxLayout;
 
-    QLabel *label = new QLabel;
-    QString imageURI = "";
-    if(player == PLAYER1) {
-        imageURI = ":/images/player_ready.jpg";
-    } else {
-        imageURI = ":/images/player_ready.jpg";
-    }
-
+    QLabel *description = new QLabel;
+    QString imageURI = ":/images/player_ready.jpg";
     QPixmap image(imageURI);
     image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-    label->setPixmap(image);
+    description->setPixmap(image);
 
     QPushButton *readyButton = new QPushButton("Ready");
-    connect(readyButton, SIGNAL (released()), this, SLOT (showNextWindow()));
+    connect(readyButton, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     QPushButton *gameSoundButton = new QPushButton("Play Game Sound");
     connect(gameSoundButton, SIGNAL (released()), this, SLOT (playGameSound()));
 
-    layout->addWidget(label);
+    layout->addWidget(description);
     layout->addWidget(readyButton);
     layout->addWidget(gameSoundButton);
 
@@ -157,38 +148,39 @@ QWidget* MainWindow::initGameScreen(int player) {
     QHBoxLayout *headerLayout = new QHBoxLayout;
     QLabel *playername = new QLabel;
 
-    QLabel *label = new QLabel;
+    QLabel *description = new QLabel;
     QString imageURI = "";
-    if(player == PLAYER1) {
-        guiTime1->setText("Remaining time: " + PLAYER_GAME_TIME);
+    if(player == PLAYER1) {;
         playername->setText("Player 1");
         imageURI = ":/images/player1_game_screen.jpg";
-
         headerLayout->addWidget(playername);
-        headerLayout->addWidget(guiTime1);
     } else {
-        guiTime2->setText("Remaining time: " + PLAYER_GAME_TIME);
         playername->setText("Player 2");
         imageURI = ":/images/player2_game_screen.jpg";
-
         headerLayout->addWidget(playername);
-        headerLayout->addWidget(guiTime2);
     }
 
     QPixmap image(imageURI);
     image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
-    label->setPixmap(image);
+    description->setPixmap(image);
 
-    QPushButton *button = new QPushButton("Confirm");
-    connect(button, SIGNAL (released()), this, SLOT (showNextWindow()));
+    QPushButton *detectionButton = new QPushButton("Start facial detection");
+    connect(detectionButton, SIGNAL (released()), this, SLOT (showDetectionScreen()));
+
+    QPushButton *gameSoundButton = new QPushButton("Play game sound");
+    connect(gameSoundButton, SIGNAL (released()), this, SLOT (playGameSound()));
+
+    QPushButton *confirmbutton = new QPushButton("Confirm");
+    connect(confirmbutton, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     QWidget *header = new QWidget;
     header->setLayout(headerLayout);
 
     layout->addWidget(header);
-
-    layout->addWidget(label);
-    layout->addWidget(button);
+    layout->addWidget(description);
+    layout->addWidget(detectionButton);
+    layout->addWidget(gameSoundButton);
+    layout->addWidget(confirmbutton);
 
     widget->setLayout(layout);
     return widget;
@@ -231,14 +223,9 @@ QWidget* MainWindow::initResultScreen() {
 }
 
 
-void MainWindow::showNextWindow()
+void MainWindow::showNextScreen()
 {
     qDebug() << "source old: " << source;
-
-    if(qTimer->isActive()) {
-        qTimer->stop();
-        timeLeft = PLAYER_GAME_TIME;
-    }
 
     switch (source) {
         case STARTSCREEN:
@@ -254,11 +241,9 @@ void MainWindow::showNextWindow()
             sound.initPlayerSound();
             source = PLAYER1_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER1_GAME_SCREEN));
-            qTimer->start(1000);
             break;
         case PLAYER1_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
-            faceDetection.stopDetectingFaces();
             source = PLAYER2_READY_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_READY_SCREEN));
             break;
@@ -267,11 +252,9 @@ void MainWindow::showNextWindow()
             sound.initPlayerSound();
             source = PLAYER2_GAME_SCREEN;
             stackedWidget->setCurrentWidget(stackedWidget->widget(PLAYER2_GAME_SCREEN));
-            qTimer->start(1000);
             break;
         case PLAYER2_GAME_SCREEN:
             currentPlayer = NO_PLAYER;
-            faceDetection.stopDetectingFaces();
             source = GAME_RESULT_SCREEN;
             stackedWidget->addWidget(initResultScreen());
             stackedWidget->setCurrentWidget(stackedWidget->widget(GAME_RESULT_SCREEN));
@@ -286,32 +269,12 @@ void MainWindow::showNextWindow()
     qDebug() << "source new: " << source;
 }
 
-void MainWindow::showNextWindowExtra() {
+void MainWindow::showDetectionScreen() {
     if(source == PLAYER1_GAME_SCREEN || source == PLAYER2_GAME_SCREEN) {
-        qDebug()<< "showWindowInit";
+        qDebug()<< "showDetectionScreen";
+
+        sound.stopGameSound();
         faceDetection.startDetectingFaces();
-    }
-}
-
-void MainWindow::updateGUITime() {
-    timeLeft = timeLeft - 1;
-    if(timeLeft == 0) {
-        showNextWindow();
-    }  
-
-    QString guiText = "Remaining time: ";
-    guiText += QString::number(timeLeft);
-    guiText += "s";
-
-    switch (source) {
-        case PLAYER1_GAME_SCREEN:
-            guiTime1->setText(guiText);
-            break;
-        case PLAYER2_GAME_SCREEN:
-            guiTime2->setText(guiText);
-            break;
-        default:
-            break;
     }
 }
 
@@ -358,7 +321,7 @@ void MainWindow::quitGame() {
 }
 
 void MainWindow::restartGame() {
-    qDebug() << "Performing application reboot...";
-    qApp->exit( MainWindow::EXIT_CODE_REBOOT );
+    qDebug() << "Restarting game...";
+    initGame();
 }
 

@@ -10,15 +10,17 @@ public:
     SoundSystem(QObject* parent);
     void play();
     void stop();
+    void initGameSound();
     double getSoundGameValue();
     void playGameSound();
+    void stopGameSound();
     void initPlayerSound();
     void startPlayerSound();
     void updatePlayerSound(double newVolume);
     void stopPlayerSound();
 private:
     QSoundEffect effect;
-    const double soundGameValue;
+    double soundGameValue;
     double getTrueRandom();
 };
 
