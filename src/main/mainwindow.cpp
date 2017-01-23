@@ -90,6 +90,7 @@ QWidget* MainWindow::initStartScreen() {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
+    button->setFixedHeight(30);
     connect(button, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     layout->addWidget(label);
@@ -108,6 +109,7 @@ QWidget* MainWindow::initIntructionScreen() {
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
+    button->setFixedHeight(30);
     connect(button, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     layout->addWidget(label);
@@ -128,9 +130,11 @@ QWidget* MainWindow::initPlayerReadyScreen() {
     description->setPixmap(image);
 
     QPushButton *readyButton = new QPushButton("Ready");
+    readyButton->setFixedHeight(30);
     connect(readyButton, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     QPushButton *gameSoundButton = new QPushButton("Play Game Sound");
+    gameSoundButton->setFixedHeight(30);
     connect(gameSoundButton, SIGNAL (released()), this, SLOT (playGameSound()));
 
     layout->addWidget(description);
@@ -165,12 +169,15 @@ QWidget* MainWindow::initGameScreen(int player) {
     description->setPixmap(image);
 
     QPushButton *detectionButton = new QPushButton("Start facial detection");
+    detectionButton->setFixedHeight(30);
     connect(detectionButton, SIGNAL (released()), this, SLOT (showDetectionScreen()));
 
     QPushButton *gameSoundButton = new QPushButton("Play game sound");
+    gameSoundButton->setFixedHeight(30);
     connect(gameSoundButton, SIGNAL (released()), this, SLOT (playGameSound()));
 
     QPushButton *confirmbutton = new QPushButton("Confirm");
+    confirmbutton->setFixedHeight(30);
     connect(confirmbutton, SIGNAL (released()), this, SLOT (showNextScreen()));
 
     QWidget *header = new QWidget;
@@ -209,9 +216,11 @@ QWidget* MainWindow::initResultScreen() {
     label->setPixmap(image);
 
     QPushButton *buttonQuit = new QPushButton("Quit");
+    buttonQuit->setFixedHeight(30);
     connect(buttonQuit, SIGNAL (released()), this, SLOT (quitGame()));
 
     QPushButton *buttonRestart = new QPushButton("Restart");
+    buttonRestart->setFixedHeight(30);
     connect(buttonRestart, SIGNAL (released()), this, SLOT (restartGame()));
 
     layout->addWidget(label);
@@ -274,7 +283,7 @@ void MainWindow::showDetectionScreen() {
         qDebug()<< "showDetectionScreen";
 
         sound.stopGameSound();
-        faceDetection.startDetectingFaces();
+        //faceDetection.startDetectingFaces();
     }
 }
 
