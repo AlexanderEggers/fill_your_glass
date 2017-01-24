@@ -14,7 +14,7 @@ const int STARTSCREEN = 0, INTRODUCTION_SCREEN = 1, PLAYER1_READY_SCREEN = 2,
 PLAYER1_GAME_SCREEN = 3, PLAYER2_READY_SCREEN = 4, PLAYER2_GAME_SCREEN = 5, GAME_RESULT_SCREEN = 6;
 
 const int NO_PLAYER = 0, PLAYER1 = 1, PLAYER2 = 2;
-const double PLAYER_INPUT_CHANGE_VALUE = 0.02;
+const double PLAYER_INPUT_CHANGE_VALUE = 0.05;
 
 int const MainWindow::EXIT_CODE_REBOOT = -123456789;
 
@@ -27,8 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowTitle("Fill Your Glass");
     setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::MSWindowsFixedSizeDialogHint);
-    setFixedHeight(525);
-    setFixedWidth(600);
+    setFixedHeight(700);
+    setFixedWidth(1250);
 
     QObject::connect(&faceDetection, SIGNAL(startMouthEvent(void)),
                             this, SLOT(startPlayerInput(void)));
@@ -86,7 +86,7 @@ QWidget* MainWindow::initStartScreen() {
 
     QLabel *label = new QLabel;
     QPixmap image(":/images/startscreen.jpg");
-    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(1350,700,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
@@ -105,7 +105,7 @@ QWidget* MainWindow::initIntructionScreen() {
     QVBoxLayout *layout = new QVBoxLayout;
     QLabel *label = new QLabel;
     QPixmap image(":/images/intro_Pic.jpg");
-    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(1350,700,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *button = new QPushButton("Next");
@@ -126,7 +126,7 @@ QWidget* MainWindow::initPlayerReadyScreen() {
     QLabel *description = new QLabel;
     QString imageURI = ":/images/player_ready.jpg";
     QPixmap image(imageURI);
-    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(1250,600,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     description->setPixmap(image);
 
     QPushButton *readyButton = new QPushButton("Ready");
@@ -138,8 +138,9 @@ QWidget* MainWindow::initPlayerReadyScreen() {
     connect(gameSoundButton, SIGNAL (released()), this, SLOT (playGameSound()));
 
     layout->addWidget(description);
-    layout->addWidget(readyButton);
     layout->addWidget(gameSoundButton);
+    layout->addWidget(readyButton);
+
 
     widget->setLayout(layout);
     return widget;
@@ -165,7 +166,7 @@ QWidget* MainWindow::initGameScreen(int player) {
     }
 
     QPixmap image(imageURI);
-    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(1250,600,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     description->setPixmap(image);
 
     QPushButton *detectionButton = new QPushButton("Start facial detection");
@@ -186,7 +187,6 @@ QWidget* MainWindow::initGameScreen(int player) {
     layout->addWidget(header);
     layout->addWidget(description);
     layout->addWidget(detectionButton);
-    layout->addWidget(gameSoundButton);
     layout->addWidget(confirmbutton);
 
     widget->setLayout(layout);
@@ -212,7 +212,7 @@ QWidget* MainWindow::initResultScreen() {
     }
 
     QPixmap image(imageURI);
-    image = image.scaled(600,400,Qt::IgnoreAspectRatio,Qt::FastTransformation);
+    image = image.scaled(1350,700,Qt::IgnoreAspectRatio,Qt::FastTransformation);
     label->setPixmap(image);
 
     QPushButton *buttonQuit = new QPushButton("Quit");
@@ -283,7 +283,7 @@ void MainWindow::showDetectionScreen() {
         qDebug()<< "showDetectionScreen";
 
         sound.stopGameSound();
-        //faceDetection.startDetectingFaces();
+        faceDetection.startDetectingFaces();
     }
 }
 
